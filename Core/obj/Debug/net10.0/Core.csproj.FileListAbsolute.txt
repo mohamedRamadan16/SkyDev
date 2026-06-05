@@ -1,0 +1,12 @@
+D:\Software Engineering\projects\SkyDevEcommerce\Core\bin\Debug\net10.0\Core.deps.json
+D:\Software Engineering\projects\SkyDevEcommerce\Core\bin\Debug\net10.0\Core.dll
+D:\Software Engineering\projects\SkyDevEcommerce\Core\bin\Debug\net10.0\Core.pdb
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.AssemblyInfoInputs.cache
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.AssemblyInfo.cs
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.csproj.CoreCompileInputs.cache
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.sourcelink.json
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.dll
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\refint\Core.dll
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\Core.pdb
+D:\Software Engineering\projects\SkyDevEcommerce\Core\obj\Debug\net10.0\ref\Core.dll
