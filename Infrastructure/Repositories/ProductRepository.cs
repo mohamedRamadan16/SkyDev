@@ -16,7 +16,7 @@ public class ProductRepository : IProductRepository
     this._context = context;
   }
 
-  public async Task<IEnumerable<Product>> GetAll(string? brand, string? type, int pageSize = 10, int pageNumber = 1)
+  public async Task<IEnumerable<Product>> GetAll(string? brand, string? type, string? sort, int pageSize = 10, int pageNumber = 1)
   {
     if(pageNumber <= 0 || pageSize <= 0) return [];
     
@@ -26,6 +26,13 @@ public class ProductRepository : IProductRepository
 
     if(!string.IsNullOrWhiteSpace(type))
       query = query.Where(p => p.Type == type);
+
+    query = sort switch
+    {
+      "priceAsc" => query.OrderBy(p => p.Price),
+      "priceDesc" => query.OrderByDescending(p => p.Price),
+      _ => query.OrderBy(p => p.Name)
+    };
 
     var products = await query.Skip(pageSize * (pageNumber - 1))
                                     .Take(pageSize)
