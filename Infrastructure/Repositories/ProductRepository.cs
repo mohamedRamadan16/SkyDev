@@ -65,6 +65,19 @@ public class ProductRepository : IProductRepository
     return (res, totalCount);
   }
 
+
+  public async Task<IReadOnlyList<string>> GetBrandsAsync()
+  {
+    var result =  await _context.Products.Select(p => p.Brand).Distinct().ToListAsync();
+    return result;
+  }
+
+  public async Task<IReadOnlyList<string>> GetTypesAsync()
+  {
+    var result =  await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
+    return result;
+  }
+
   public async Task<Product?> GetById(int id)
   {
     Product? product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
