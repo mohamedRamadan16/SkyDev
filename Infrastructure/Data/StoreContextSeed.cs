@@ -10,7 +10,7 @@ public class StoreContextSeed
   {
     if (!context.Products.Any())
     {
-      var productsData = await File.ReadAllTextAsync("../Data/SeedData/products.json");
+      var productsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");
       var products = JsonSerializer.Deserialize<List<Product>>(productsData);
       if(products != null)
       {
