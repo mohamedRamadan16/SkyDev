@@ -10,38 +10,45 @@ namespace API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductsController(IProductRepository _productRepo) : ControllerBase
+public class ProductsController(IGenericRepository<Product> _productRepo) : ControllerBase
 {
 
   // Using ActionResult Instead of IActionResult in some methods is related to Readability as we now knows what the methods returns & also It's better approach with swagger & OpenAPI
+  // [HttpGet]
+  // public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] string? brand, [FromQuery] string? type, string? sort,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+  // {
+  //   IEnumerable<Product> products = await _productRepo.GetAllAsync(brand, type, sort,pageSize, pageNumber);
+  //   return Ok(products);
+  // }
+
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] string? brand, [FromQuery] string? type, string? sort,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+  public async Task<ActionResult<IEnumerable<Product>>> GetAll()
   {
-    IEnumerable<Product> products = await _productRepo.GetAll(brand, type, sort,pageSize, pageNumber);
+    IEnumerable<Product> products = await _productRepo.GetAllAsync();
     return Ok(products);
   }
 
-  [HttpGet("{brands}")]
-  public async Task<ActionResult<IReadOnlyList<string>>> GetAllBrands()
-  {
-    var brands = await _productRepo.GetBrandsAsync();
-    return Ok(brands);
-  }
+  // [HttpGet("{brands}")]
+  // public async Task<ActionResult<IReadOnlyList<string>>> GetAllBrands()
+  // {
+  //   var brands = await _productRepo.GetBrandsAsync();
+  //   return Ok(brands);
+  // }
 
-  [HttpGet]
-  [Route("types")]
-  public async Task<ActionResult<IReadOnlyList<string>>> GetAllTypes()
-  {
-    var types = await _productRepo.GetTypesAsync();
-    return Ok(types);
-  }
+  // [HttpGet]
+  // [Route("types")]
+  // public async Task<ActionResult<IReadOnlyList<string>>> GetAllTypes()
+  // {
+  //   var types = await _productRepo.GetTypesAsync();
+  //   return Ok(types);
+  // }
   
   [HttpGet("{id:int}")]
   public async Task<ActionResult<Product>> GetById(int id)
   {
     if(id <= 0) return BadRequest("Product Id Shouldn't Be Less Than Or Equal 0");
 
-    Product? product = await _productRepo.GetById(id);
+    Product? product = await _productRepo.GetByIdAsync(id);
     if(product is null) return NotFound();
     return Ok(product);
   }
@@ -63,7 +70,7 @@ public class ProductsController(IProductRepository _productRepo) : ControllerBas
       Type = product.Type
     };
 
-    await _productRepo.CreateAsync(ProductToDb);
+    await _productRepo.AddAsync(ProductToDb);
     return CreatedAtAction(nameof(GetById), new { id = ProductToDb.Id }, ProductToDb);
   }
 
@@ -73,7 +80,7 @@ public class ProductsController(IProductRepository _productRepo) : ControllerBas
     if(id <= 0) return BadRequest("Product Id Shouldn't Be Less Than Or Equal 0");
     if(updateProductDTO is null) return BadRequest("Enter a correct values !!! ");
 
-    Product? productFromDb = await _productRepo.GetById(id);
+    Product? productFromDb = await _productRepo.GetByIdAsync(id);
     if(productFromDb is null) return NotFound();
     
     productFromDb.Name = updateProductDTO.Name;
@@ -85,7 +92,7 @@ public class ProductsController(IProductRepository _productRepo) : ControllerBas
     productFromDb.Type = updateProductDTO.Type;
 
     //_context.Products.Update(productFromDb); // unnecssary as it's already tracked by EF
-    await _productRepo.Update(productFromDb);
+    await _productRepo.UpdateAsync(productFromDb);
     return NoContent();
   }
 
@@ -93,10 +100,10 @@ public class ProductsController(IProductRepository _productRepo) : ControllerBas
   public async Task<IActionResult> Delete([FromRoute] int id)
   {
     if(id <= 0) return BadRequest("Product Id Shouldn't Be Less Than Or Equal 0");
-    Product? product = await _productRepo.GetById(id);
+    Product? product = await _productRepo.GetByIdAsync(id);
     if(product is null) return NotFound();
     
-    await _productRepo.Delete(product);
+    await _productRepo.RemoveAsync(product);
     return NoContent();
   }
 }
