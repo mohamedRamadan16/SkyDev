@@ -16,14 +16,20 @@ public class ProductRepository : IProductRepository
     this._context = context;
   }
 
-  public async Task<IEnumerable<Product>> GetAll(int pageSize = 10, int pageNumber = 1)
+  public async Task<IEnumerable<Product>> GetAll(string? brand, string? type, int pageSize = 10, int pageNumber = 1)
   {
     if(pageNumber <= 0 || pageSize <= 0) return [];
+    
+    var query = _context.Products.AsQueryable();
+    if(!string.IsNullOrWhiteSpace(brand))
+      query = query.Where(p => p.Brand == brand);
 
-    List<Product> products = await _context.Products
-                                          .Skip(pageSize * (pageNumber - 1))
-                                          .Take(pageSize)
-                                          .ToListAsync();
+    if(!string.IsNullOrWhiteSpace(type))
+      query = query.Where(p => p.Type == type);
+
+    var products = await query.Skip(pageSize * (pageNumber - 1))
+                                    .Take(pageSize)
+                                    .ToListAsync();
     return products;
   }
 
