@@ -15,9 +15,9 @@ public class ProductsController(IProductRepository _productRepo) : ControllerBas
 
   // Using ActionResult Instead of IActionResult in some methods is related to Readability as we now knows what the methods returns & also It's better approach with swagger & OpenAPI
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+  public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] string? brand, [FromQuery] string? type,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
   {
-    IEnumerable<Product> products = await _productRepo.GetAll(pageSize, pageNumber);
+    IEnumerable<Product> products = await _productRepo.GetAll(brand, type, pageSize, pageNumber);
     return Ok(products);
   }
 
