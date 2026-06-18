@@ -15,4 +15,16 @@ public class BaseSepcification<T> : ISpecification<T>
     
   }
   public Expression<Func<T, bool>>? Criteria => _criteria; // To hande Where
+  public Expression<Func<T, object>>? OrderBy { get; private set; }
+  public Expression<Func<T, object>>? OrderByDesc { get; private set; }
+
+  public void AddOrderBy(Expression<Func<T, object>> orderBy)
+  {
+    OrderBy = orderBy;
+  }
+
+    public void AddOrderByDesc(Expression<Func<T, object>> orderByDesc)
+  {
+    OrderByDesc = orderByDesc;
+  }
 }
