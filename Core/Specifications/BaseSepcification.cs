@@ -10,5 +10,9 @@ public class BaseSepcification<T> : ISpecification<T>
   {
     this._criteria = _criteria;
   }
+  protected BaseSepcification() : this(null)
+  {
+    
+  }
   public Expression<Func<T, bool>>? Criteria => _criteria; // To hande Where
 }

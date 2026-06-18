@@ -2,6 +2,7 @@ using API.Controllers.DTOs;
 using API.DTOs.ProductDTOs;
 using Core.Entities;
 using Core.IRepositories;
+using Core.Specifications;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +23,10 @@ public class ProductsController(IGenericRepository<Product> _productRepo) : Cont
   // }
 
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+  public async Task<ActionResult<IReadOnlyList<Product>>> GetAll(string? brand, string? type, string? sort)
   {
-    IEnumerable<Product> products = await _productRepo.GetAllAsync();
+    var spec = new ProductSpecification(brand, type);
+    var products = await _productRepo.ListAsync(spec);
     return Ok(products);
   }
 
