@@ -30,20 +30,22 @@ public class ProductsController(IGenericRepository<Product> _productRepo) : Cont
     return Ok(products);
   }
 
-  // [HttpGet("{brands}")]
-  // public async Task<ActionResult<IReadOnlyList<string>>> GetAllBrands()
-  // {
-  //   var brands = await _productRepo.GetBrandsAsync();
-  //   return Ok(brands);
-  // }
+  [HttpGet("{brands}")]
+  public async Task<ActionResult<IReadOnlyList<string>>> GetAllBrands()
+  {
+    var spec = new BrandListSepcification();
+    var brands = await _productRepo.ListAsync(spec);
+    return Ok(brands);
+  }
 
-  // [HttpGet]
-  // [Route("types")]
-  // public async Task<ActionResult<IReadOnlyList<string>>> GetAllTypes()
-  // {
-  //   var types = await _productRepo.GetTypesAsync();
-  //   return Ok(types);
-  // }
+  [HttpGet]
+  [Route("types")]
+  public async Task<ActionResult<IReadOnlyList<string>>> GetAllTypes()
+  {
+    var spec = new TypeListSepcification();
+    var types = await _productRepo.ListAsync(spec);
+    return Ok(types);
+  }
   
   [HttpGet("{id:int}")]
   public async Task<ActionResult<Product>> GetById(int id)
