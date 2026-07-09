@@ -4,10 +4,10 @@ namespace Core.Specifications;
 
 public class ProductSpecification : BaseSepcification<Product>
 {
+  
   public ProductSpecification(ProductSpecParams specParams) : base(b => 
-    (specParams.Brands.Count == 0 || specParams.Brands.Contains(b.Brand)) &&
-    (specParams.Types.Count == 0 || specParams.Types.Contains(b.Type))
-  )
+      (specParams.Brands.Count == 0 || specParams.Brands.Contains(b.Brand)) &&
+      (specParams.Types.Count == 0 || specParams.Types.Contains(b.Type)))
   {
     switch (specParams.Sort)
     {
@@ -21,5 +21,8 @@ public class ProductSpecification : BaseSepcification<Product>
         AddOrderBy(p => p.Name);
         break;
     }
+
+    if(specParams.pageNumber != 0)
+      AddPagination(specParams.pageSize * (specParams.pageNumber - 1), specParams.pageSize);
   }
 }

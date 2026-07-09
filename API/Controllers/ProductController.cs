@@ -1,5 +1,7 @@
+using System.Runtime.Intrinsics.X86;
 using API.Controllers.DTOs;
 using API.DTOs.ProductDTOs;
+using API.RequestHelpers;
 using Core.Entities;
 using Core.IRepositories;
 using Core.Specifications;
@@ -27,7 +29,10 @@ public class ProductsController(IGenericRepository<Product> _productRepo) : Cont
   {
     var spec = new ProductSpecification(specParams);
     var products = await _productRepo.ListAsync(spec);
-    return Ok(products);
+    var productCount = await _productRepo.CountAsync(spec);
+
+    var pagination = new Pangination<Product>(specParams.pageNumber, specParams.pageSize, productCount, products);
+    return Ok(pagination);
   }
 
   [HttpGet("{brands}")]
