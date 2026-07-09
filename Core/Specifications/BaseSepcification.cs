@@ -18,6 +18,12 @@ public class BaseSepcification<T> : ISpecification<T>
 
   public bool IsDistinct { get; private set; }
 
+  public int Skip { get; private set; }
+
+  public int Take { get; private set; }
+
+  public bool IsPaginated { get; private set; }
+
   protected void AddOrderBy(Expression<Func<T, object>> orderBy)
   {
     OrderBy = orderBy;
@@ -31,6 +37,22 @@ public class BaseSepcification<T> : ISpecification<T>
   protected void AddDistinct()
   {
     IsDistinct = true;
+  }
+
+  protected void AddPagination(int skip, int take)
+  {
+    Skip = skip;
+    Take = take;
+    IsPaginated = true;
+  }
+
+  public IQueryable<T> ApplyCriteria(IQueryable<T> query)
+  {
+    if(Criteria != null)
+    {
+      query = query.Where(Criteria);
+    }
+    return query;
   }
 }
 
