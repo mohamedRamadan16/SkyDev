@@ -24,8 +24,6 @@ public class BaseSepcification<T> : ISpecification<T>
 
   public bool IsPaginated { get; private set; }
 
-  public string Search { get; private set; }
-
   protected void AddOrderBy(Expression<Func<T, object>> orderBy)
   {
     OrderBy = orderBy;
@@ -47,12 +45,6 @@ public class BaseSepcification<T> : ISpecification<T>
     Take = take;
     IsPaginated = true;
   }
-
-  protected void AddSearch(string search)
-  {
-    Search = search;
-  }
-
   public IQueryable<T> ApplyCriteria(IQueryable<T> query)
   {
     if(Criteria != null)

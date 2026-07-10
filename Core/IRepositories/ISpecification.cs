@@ -12,7 +12,6 @@ public interface ISpecification<T>
   bool IsPaginated { get; }
   int Skip { get; }
   int Take { get; }
-  string Search { get; }
 }
 
 public interface ISpecification<T, TResult> : ISpecification<T>
