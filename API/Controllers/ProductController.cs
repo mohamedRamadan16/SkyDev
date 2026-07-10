@@ -10,29 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
-
-[Route("api/[controller]")]
-[ApiController]
-public class ProductsController(IGenericRepository<Product> _productRepo) : ControllerBase
+public class ProductsController(IGenericRepository<Product> _productRepo) : BaseApiController
 {
 
   // Using ActionResult Instead of IActionResult in some methods is related to Readability as we now knows what the methods returns & also It's better approach with swagger & OpenAPI
-  // [HttpGet]
-  // public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] string? brand, [FromQuery] string? type, string? sort,[FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-  // {
-  //   IEnumerable<Product> products = await _productRepo.GetAllAsync(brand, type, sort,pageSize, pageNumber);
-  //   return Ok(products);
-  // }
-
   [HttpGet]
   public async Task<ActionResult<IReadOnlyList<Product>>> GetAll([FromQuery] ProductSpecParams specParams)
   {
     var spec = new ProductSpecification(specParams);
-    var products = await _productRepo.ListAsync(spec);
-    var productCount = await _productRepo.CountAsync(spec);
-
-    var pagination = new Pangination<Product>(specParams.pageNumber, specParams.pageSize, productCount, products);
-    return Ok(pagination);
+    return await GetPaginatedProducts(_productRepo, spec, specParams.pageNumber, specParams.pageSize);
   }
 
   [HttpGet("{brands}")]
