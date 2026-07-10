@@ -21,7 +21,7 @@ public class ProductSpecParams
     }
   }
   public string? Sort { get; set; }
-
+  public string? Search { get; set; }
   private int maxPageSize = 50;
   private int _pageSize = 6;
   public int pageNumber { get; set; } = 1;

@@ -45,7 +45,6 @@ public class BaseSepcification<T> : ISpecification<T>
     Take = take;
     IsPaginated = true;
   }
-
   public IQueryable<T> ApplyCriteria(IQueryable<T> query)
   {
     if(Criteria != null)
