@@ -4,14 +4,19 @@ namespace API.DTOs.ProductDTOs;
 
 public class ProductCreateDTO
 {
-  public required string Name { get; set; }
-  public required string Description { get; set; }
-  [Range(0, 5000)]
-  public required decimal Price { get; set; }
+  [Required]
+  public string Name { get; set; } = string.Empty;
+  [Required]
+  public string Description { get; set; } = string.Empty;
+  [Range(1, 5000)]
+  public decimal Price { get; set; }
   [Range(0, 100)]
   public int QunatityInStock { get; set; }
-  public required string Type { get; set; }
-  public required string Brand { get; set; } = null!;
-  public required string PictureUrl { get; set; } = null!;
+  [Required]
+  public  string Type { get; set; } = string.Empty;
+  [Required]
+  public  string Brand { get; set; } = string.Empty;
+  [Required]
+  public  string PictureUrl { get; set; } = string.Empty;
   
 }

@@ -1,3 +1,4 @@
+using API.DTOs.ProductDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -8,5 +9,11 @@ public class BuggyController : BaseApiController
   public IActionResult GetInternalError()
   {
     throw new Exception("Bad Request");
+  }
+
+  [HttpPost("validationerror")]
+  public IActionResult TestValidation(ProductCreateDTO dto)
+  {
+    return Ok();
   }
 }
