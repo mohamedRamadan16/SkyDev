@@ -1,3 +1,7 @@
+# =========================
+# .NET
+# =========================
+
 # Build output
 bin/
 obj/
@@ -23,5 +27,47 @@ packages/
 
 # Logs
 *.log
+
+# =========================
+# Angular / Node.js
+# =========================
+
+# Dependencies
+**/node_modules/
+
+# Angular build output
+**/dist/
+**/out-tsc/
+
+# Angular cache
+**/.angular/
+**/.angular/cache/
+
+# Coverage
+**/coverage/
+
+# npm/yarn/pnpm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files (optional)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Package manager cache
+**/.npm/
+**/.pnpm-store/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# =========================
+# Project-specific
+# =========================
 
 CourseAssets/
