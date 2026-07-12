@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.IRepositories;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
@@ -18,8 +19,8 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthorization();
-
 app.MapControllers();
 
 try
