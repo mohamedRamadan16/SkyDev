@@ -5,3 +5,13 @@
 .container {
   @apply mx-auto px-6
 }
+
+.text-primary {
+  @apply text-blue-700
+}
+
+a{
+  &.active{
+    color: #7d00ff;
+  }
+}
