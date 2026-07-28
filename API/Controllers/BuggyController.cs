@@ -11,6 +11,24 @@ public class BuggyController : BaseApiController
     throw new Exception("Bad Request");
   }
 
+  [HttpGet("unauthorized")]
+  public IActionResult GetUnauthorized()
+  {
+      return Unauthorized();
+  }
+
+  [HttpGet("notfound")]
+  public IActionResult GetNotFound()
+  {
+    return NotFound();
+  }
+
+    [HttpGet("badrequest")]
+    public IActionResult GetBadRequest()
+    {
+        return BadRequest("This is not a good request");
+    }
+
   [HttpPost("validationerror")]
   public IActionResult TestValidation(ProductCreateDTO dto)
   {
