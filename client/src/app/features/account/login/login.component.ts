@@ -1,9 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { AccountService } from '../../../core/services/account.service';
+import { Router } from '@angular/router';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [
+    ReactiveFormsModule,
+    MatInput,
+    MatButton,
+    MatLabel,
+    MatFormField,
+    MatCard
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {}
+export class LoginComponent {
+  protected fb = inject(FormBuilder)
+  protected accountService = inject(AccountService)
+  protected router = inject(Router)
+
+  loginForm = this.fb.group({
+    email: [''],
+    password: ['']
+  })
+
+  onSubmit(){
+    this.accountService.login(this.loginForm.value).subscribe({
+      next: () => {
+        this.accountService.getUserInfo().subscribe()
+        this.router.navigateByUrl('/shop')
+      }
+    })
+  }
+}
