@@ -24,7 +24,14 @@ public class AccountController(
     };
 
     var result = await signInManager.UserManager.CreateAsync(user, registerDto.Password);
-    if(!result.Succeeded) return BadRequest(result.Errors);
+    if (!result.Succeeded)
+    {
+      foreach(var error in result.Errors)
+      {
+        ModelState.AddModelError(error.Code, error.Description);
+      }
+      return ValidationProblem();
+    }
     return Ok();
   }
 
@@ -36,18 +43,37 @@ public class AccountController(
     return NoContent();
   }
 
+  [Authorize]
+  [HttpPost("address")]
+  public async Task<ActionResult<AddressDto>> CreateOrUpdateUserAddress([FromBody] AddressDto addressDto)
+  {
+    var user = await signInManager.UserManager.GetUserAndAddressByEmail(User);
+    if (user.Address == null)
+    {
+      user.Address = addressDto.ToEntity();
+    }
+    else
+    {
+      user.Address.UpdateFromDto(addressDto);
+    }
+    var result = await signInManager.UserManager.UpdateAsync(user);
+    if(!result.Succeeded) return BadRequest("Problem With Address");
+    return Ok(user.Address.ToDto());
+  }
+
   [HttpGet("user-info")]
   public async Task<ActionResult> GetUserInfo()
   {
     if(User.Identity?.IsAuthenticated == false) return NoContent();
-    var user = await signInManager.UserManager.GetUserByEmail(User);
+    var user = await signInManager.UserManager.GetUserAndAddressByEmail(User);
 
     if(user == null) return Unauthorized();
 
     return Ok(new {
       user.FirstName,
       user.LastName,
-      user.Email
+      user.Email,
+      Address = user.Address?.ToDto()
     });
   }
 
