@@ -14,13 +14,8 @@ import { TextInputComponent } from "../../../shared/components/text-input/text-i
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
-    MatInput,
     MatButton,
-    MatLabel,
-    MatFormField,
     MatCard,
-    JsonPipe,
-    MatError,
     TextInputComponent
 ],
   templateUrl: './register.component.html',
